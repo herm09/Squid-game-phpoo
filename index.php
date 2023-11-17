@@ -2,9 +2,9 @@
 
 class Character {
     public $name;
-    public $marbles;
-    public $loss;
-    public $gain;
+    public $marbles; // nombre de billes
+    public $loss; // nombre de billes perdues
+    public $gain; // nombre de billes gagnées
     public $scream_war;
 
     public function __construct($name, $marbles, $loss, $gain, $scream_war) {
@@ -22,14 +22,14 @@ class Player extends Character {
     }
 
     public function guess($opponentMarbles) {
-        // Algorithme pour deviner si le nombre de billes de l'adversaire est pair ou impair
+        // Devine si le nombre de billes de l'adversaire est pair ou impair
         $isEven = $opponentMarbles % 2 == 0;
         $guess = rand(0, 1); // 0 pour impair, 1 pour pair (choix aléatoire)
         
         return $guess == $isEven;
     }
 
-    public function getMarbles() {
+    public function getMarbles() { // Retourne le nombre de billes du joueur
         return $this->marbles;
     }
 }
@@ -44,28 +44,42 @@ class Opponent extends Character {
 }
 
 class Game {
-    private $player;
-    private $opponents = [];
-    private $difficulty;
-    private $totalRounds;
+    private $player; // Instance de la classe Player qui représente le joueur
+    private $opponents = []; // Tableau d'instances de la classe Opponent qui représente les adversaires
+    private $difficulty; // Niveau de difficulté du jeu choisi aléatoirement entre 1 et 3
+    private $totalRounds; // Nombre total de rounds en fonction de la difficulté
 
     public function __construct() {
-        // Choisis la difficulté de manière aléatoire entre 1 et 3
+        // Détermine le niveau de difficulté aléatoirement entre 1 et 3
         $this->difficulty = rand(1, 3);
-
-        // Choisissez le nombre total de rounds en fonction de la difficulté
-        $this->totalRounds = $this->difficulty * 5; // Par exemple, 5 rounds pour la difficulté 1, 10 pour la difficulté 2, etc.
-
+    
+        // Détermine le nombre de rounds en fonction de la difficulté
+        switch ($this->difficulty) {
+            case 1:
+                $this->totalRounds = 5;
+                break;
+            case 2:
+                $this->totalRounds = 10;
+                break;
+            case 3:
+                $this->totalRounds = 20;
+                break;
+            default:
+                // Par défaut, utilisez 5 rounds si la difficulté n'est pas dans les valeurs attendues
+                $this->totalRounds = 5;
+                break;
+        }
+    
         $this->createPlayer();
         $this->createOpponents();
     }
 
-    public function getDifficulty() {
+    public function getDifficulty() { // Retourne le niveau de difficulté
         return $this->difficulty;
     }
 
     private function createPlayer() {
-        // Créez le joueur en fonction du choix du joueur
+        // Crée un joueur aléatoirement parmi les joueurs disponibles
         $characters = [
             new Player("Seong Gi-hun", 15, 2, 1, "Victoire de Seong Gi-hun !"),
             new Player("Kang Sae-byeok", 25, 1, 2, "Victoire de Kang Sae-byeok !"),
@@ -76,7 +90,7 @@ class Game {
     }
 
     private function createOpponents() {
-        // Créez les adversaires en fonction du niveau de difficulté
+        // Crée des adversaires en fonction du niveau de difficulté, avec des noms et des âges aléatoires
         $opponentNames = ["Noah", "Antoine", "Dimitri", "Timothée", "Michel", "Allia", "Léo", "Ambre", "Victoire", "Tom", "Manon", "Laurent", "Sasha", "Cassandra", "Simon", "Alexis", "Nicolas", "Brunic", "Stan", "Lola"];
         $opponentAges = range(20, 60);
 
@@ -89,6 +103,7 @@ class Game {
     }
 
     public function play() {
+        // Lance le jeu
         $playerBilles = $this->player->marbles;
         $round = 0;
 
