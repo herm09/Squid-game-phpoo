@@ -65,7 +65,7 @@ class Game {
                 $this->totalRounds = 20;
                 break;
             default:
-                // Par défaut, utilisez 5 rounds si la difficulté n'est pas dans les valeurs attendues
+                // Si la difficulté n'est pas comprise entre 1 et 3, on définit le nombre de rounds à 5
                 $this->totalRounds = 5;
                 break;
         }
