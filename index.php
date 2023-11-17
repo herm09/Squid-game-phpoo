@@ -1,162 +1,140 @@
 <?php
-    // Toute les fois ou il y a un choix à faire, il faut le rendre aléatoire
-    // A chaque fois générer un chiffre aléatoire entre 1 et 3 = faire une class (class utile)
-    class Game {
-        // Créer mes héros (faire une boucle pour créer plusieurs héros) voir comment recup les infos et instancier
-        // Créer mes ennemis
-        // Gérer les rencontres (qui gagne)
-        // Méthode qui lance les combats boucle while
-        // Essayer de pouvoir rejouer la partie
-        // Choix du hero et choix de la difficulté
-        private $heroes = [];
-        private $enemies = [];
-        private $difficulty;
 
-        public function __construct($difficulty) {
-            $this->difficulty = $difficulty;
-            $this->createHeroes();
-            $this->createEnemies();
-        }
+class Character {
+    public $name;
+    public $marbles;
+    public $loss;
+    public $gain;
+    public $scream_war;
 
-        public function playGame() {
-            // Implémentez la logique du jeu ici
-        }
-    
-        private function createHeroes() {
-            for ($i = 0; $i < 3; $i++) {
-                $randomCharacter = rand(1, 3);
-                switch ($randomCharacter) {
-                    case 1:
-                        $this->heroes[] = new SeongGiHun();
-                        break;
-                    case 2:
-                        $this->heroes[] = new KangSaeByeok();
-                        break;
-                    case 3:
-                        $this->heroes[] = new ChoSangWoo();
-                        break;
-                }
-            }
-        }
-
-    private function createEnemies() {
-        // Créez des ennemis en fonction du niveau de difficulté
-        for ($i = 0; $i < 20; $i++) {
-            $randomMarbles = rand(1, 20);
-            $randomAge = rand(20, 60);
-            $this->enemies[] = new Enemy("Adversaire " . ($i + 1), $randomMarbles, $randomAge);
-        }
-    }
-
-
-    class Characters {
-        // nom (commun avec hero)
-        // nombre de billes (commun avec hero)
-        // Gagner ou perdre -> abstraite car différent pour hero et ennemy
-        // Quand un ennemie gagne, il double ses billes pas comme le hero
-        protected $name;
-        protected $marbles;
-        protected $loss;
-        protected $gain;
-        protected $scream_war;
-
-        public function __construct($name, $marbles, $loss, $gain, $scream_war) {
-            $this->name = $name;
-            $this->marbles = $marbles;
-            $this->loss = $loss;
-            $this->gain = $gain;
-            $this->scream_war = $scream_war;
-        }    
-        
-    }
-
-    class SeongGiHun extends Characters {
-        public function __construct() {
-            $name = "Seong Gi-hun";
-            $marbles = rand(10, 20); // Générer un nombre de billes aléatoire entre 10 et 20
-            $loss = 2;
-            $gain = 1;
-            $scream_war = "Victoire de Seong Gi-hun !";
-            parent::__construct($name, $marbles, $loss, $gain, $scream_war);
-        }
-    }
-
-    class KangSaeByeok extends Characters {
-        public function __construct() {
-            $name = "Kang Sae-byeok";
-            $marbles = rand(20, 30); // Générer un nombre de billes aléatoire entre 20 et 30
-            $loss = 1;
-            $gain = 2;
-            $scream_war = "Victoire de Kang Sae-byeok !";
-            parent::__construct($name, $marbles, $loss, $gain, $scream_war);
-        }
-    }
-
-    class ChoSangWoo extends Characters {
-        public function __construct() {
-            $name = "Cho Sang-woo";
-            $marbles = rand(30, 40); // Générer un nombre de billes aléatoire entre 30 et 40
-            $loss = 0;
-            $gain = 3;
-            $scream_war = "Victoire de Cho Sang-woo !";
-            parent::__construct($name, $marbles, $loss, $gain, $scream_war);
-        }
-    }
-
-    abstract class Hero extends Characters {
-        public $triche;
-        public $pair;
-        public $impair;
-        private function check() {
-            // Si pair et qu'il a dit pair = true
-            // Si impair et qu'il a dit impair = true
-            // Si pair et qu'il a dit impair = false
-            // Si impair et qu'il a dit pair = false
-        }
-
-        // points communs entre hero et ennemy
-        // bonnus 
-        // malus
-        // PUBLIC Peut choisir s'il triche ou pas
-        // PUBLIC Choisir pair ou impair aléatoire + va vérifier si ct pair ou impair = va appeler la méthode check
-        // PRIVATE Méthode Check = si pair ou impair = renvoie true si c'est pair et false si il a dit pair et que c'est impair et inversement
-    }
-
-    class Ennemy {
-        // Age
-    }
-
-    class Utils {
-        // Méthode qui va s'appeler GenerateRandomBbr qui génèrera un chiffre (min, max)
-        // ABSTRACT 
-        // Appeler sans instancier d'objet = STATIC = Utils::generate
-    }
-
-
-    $characters = [];
-    for ($i = 0; $i < 3; $i++) {
-        $randomCharacter = rand(1, 3);
-        switch ($randomCharacter) {
-            case 1:
-                $characters[] = new SeongGiHun();
-                break;
-            case 2:
-                $characters[] = new KangSaeByeok();
-                break;
-            case 3:
-                $characters[] = new ChoSangWoo();
-                break;
-    }
-
-    foreach ($characters as $character) {
-        echo "Nom : " . $character->name . "\n";
-        echo "Nombre de billes : " . $character->marbles . "\n";
-        echo "Malus : " . $character->loss . "\n";
-        echo "Bonus : " . $character->gain . "\n";
-        echo "Cri de guerre : " . $character->scream_war . "\n";
-        echo "----------------------------------\n";
+    public function __construct($name, $marbles, $loss, $gain, $scream_war) {
+        $this->name = $name;
+        $this->marbles = $marbles;
+        $this->loss = $loss;
+        $this->gain = $gain;
+        $this->scream_war = $scream_war;
     }
 }
 
+class Player extends Character {
+    public function __construct($name, $marbles, $loss, $gain, $scream_war) {
+        parent::__construct($name, $marbles, $loss, $gain, $scream_war);
+    }
 
+    public function guess($opponentMarbles) {
+        // Algorithme pour deviner si le nombre de billes de l'adversaire est pair ou impair
+        $isEven = $opponentMarbles % 2 == 0;
+        $guess = rand(0, 1); // 0 pour impair, 1 pour pair (choix aléatoire)
+        
+        return $guess == $isEven;
+    }
+
+    public function getMarbles() {
+        return $this->marbles;
+    }
+}
+
+class Opponent extends Character {
+    private $age;
+
+    public function __construct($name, $marbles, $age) {
+        parent::__construct($name, $marbles, 0, 0, "");
+        $this->age = $age;
+    }
+}
+
+class Game {
+    private $player;
+    private $opponents = [];
+    private $difficulty;
+    private $totalRounds;
+
+    public function __construct() {
+        // Choisis la difficulté de manière aléatoire entre 1 et 3
+        $this->difficulty = rand(1, 3);
+
+        // Choisissez le nombre total de rounds en fonction de la difficulté
+        $this->totalRounds = $this->difficulty * 5; // Par exemple, 5 rounds pour la difficulté 1, 10 pour la difficulté 2, etc.
+
+        $this->createPlayer();
+        $this->createOpponents();
+    }
+
+    public function getDifficulty() {
+        return $this->difficulty;
+    }
+
+    private function createPlayer() {
+        // Créez le joueur en fonction du choix du joueur
+        $characters = [
+            new Player("Seong Gi-hun", 15, 2, 1, "Victoire de Seong Gi-hun !"),
+            new Player("Kang Sae-byeok", 25, 1, 2, "Victoire de Kang Sae-byeok !"),
+            new Player("Cho Sang-woo", 35, 0, 3, "Victoire de Cho Sang-woo !"),
+        ];
+
+        $this->player = $characters[rand(0, 2)];
+    }
+
+    private function createOpponents() {
+        // Créez les adversaires en fonction du niveau de difficulté
+        $opponentNames = ["Noah", "Antoine", "Dimitri", "Timothée", "Michel", "Allia", "Léo", "Ambre", "Victoire", "Tom", "Manon", "Laurent", "Sasha", "Cassandra", "Simon", "Alexis", "Nicolas", "Brunic", "Stan", "Lola"];
+        $opponentAges = range(20, 60);
+
+        for ($i = 0; $i < $this->totalRounds; $i++) {
+            $opponentName = $opponentNames[array_rand($opponentNames)];
+            $opponentMarbles = rand(1, 20);
+            $opponentAge = $opponentAges[array_rand($opponentAges)];
+            $this->opponents[] = new Opponent($opponentName, $opponentMarbles, $opponentAge);
+        }
+    }
+
+    public function play() {
+        $playerBilles = $this->player->marbles;
+        $round = 0;
+
+        foreach ($this->opponents as $opponent) {
+            $round++;
+
+            echo "Round $round\n";
+            echo "<br>";
+            echo "<br>";
+            echo "{$this->player->name} a {$playerBilles} billes. ";
+            echo "<br>";
+            echo "{$opponent->name} a {$opponent->marbles} billes. ";
+            echo "<br>";
+
+            $guessResult = $this->player->guess($opponent->marbles);
+
+            if ($guessResult) {
+                $playerBilles += $opponent->marbles + $this->player->gain;
+                echo "Vous avez gagné la partie ! {$this->player->scream_war}. ";
+                echo "<br>";
+                echo "<br>";
+            } else {
+                $playerBilles -= $opponent->marbles + $this->player->loss;
+                echo "Vous avez perdu la partie. ";
+                echo "<br>";
+                echo "<br>";
+            }
+
+            if ($playerBilles <= 0) {
+                echo "Game Over. Vous n'avez plus de billes. ";
+                break;
+            }
+        }
+
+        if ($playerBilles > 0) {
+            echo "Félicitations ! Vous avez gagné le jeu et gagné 45,6 milliards de Won sud-coréen. ";
+        }
+    }
+}
+
+// Exemple d'utilisation
+$difficulty = "Facile";
+$totalRounds = 5; // Pour le niveau "Facile", il y a 5 rounds
+
+$game = new Game();
+echo "Niveau de difficulté : " . $game->getDifficulty() . "\n";
+echo "<br>";
+$game->play();
 ?>
