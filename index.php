@@ -145,9 +145,6 @@ class Game {
 }
 
 // Exemple d'utilisation
-$difficulty = "Facile";
-$totalRounds = 5; // Pour le niveau "Facile", il y a 5 rounds
-
 $game = new Game();
 echo "Niveau de difficulté : " . $game->getDifficulty() . "\n";
 echo "<br>";
