@@ -1,3 +1,5 @@
+# Aide
+
 // Toute les fois ou il y a un choix à faire, il faut le rendre aléatoire
 // A chaque fois générer un chiffre aléatoire entre 1 et 3 = faire une class (class utile)
 

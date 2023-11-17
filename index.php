@@ -122,12 +122,12 @@ class Game {
 
             if ($guessResult) {
                 $playerBilles += $opponent->marbles + $this->player->gain;
-                echo "Vous avez gagné la partie ! {$this->player->scream_war}. ";
+                echo "Vous avez gagné le round ! {$this->player->scream_war}. ";
                 echo "<br>";
                 echo "<br>";
             } else {
                 $playerBilles -= $opponent->marbles + $this->player->loss;
-                echo "Vous avez perdu la partie. ";
+                echo "Vous avez perdu le round. ";
                 echo "<br>";
                 echo "<br>";
             }
