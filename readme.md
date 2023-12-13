@@ -1,3 +1,6 @@
+# Squid game
+
+
 # Aide
 
 // Toute les fois ou il y a un choix à faire, il faut le rendre aléatoire
